@@ -28,10 +28,10 @@ const findEmployeeByName = (name, arr) => {
   return answer[0];
 };
 
-spacer("findEmployeeByName Moe");
-// given a name and array of employees, return employee
-console.log(findEmployeeByName("moe", employees)); //{ id: 1, name: 'moe' }
-spacer("");
+// spacer("findEmployeeByName Moe");
+// // given a name and array of employees, return employee
+// console.log(findEmployeeByName("moe", employees)); //{ id: 1, name: 'moe' }
+// spacer("");
 
 const findManagerFor = (func, arr) => {
   const managerID = func.managerId;
@@ -110,47 +110,52 @@ const findManagementChainForEmployee = (func, arr) => {
   }
 };
 
-spacer("findManagementChain for moe");
-//given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager
-console.log(
-  findManagementChainForEmployee(
-    findEmployeeByName("moe", employees),
-    employees
-  )
-); //[  ]
-spacer("");
+// spacer("findManagementChain for moe");
+// //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager
+// console.log(
+//   findManagementChainForEmployee(
+//     findEmployeeByName("moe", employees),
+//     employees
+//   )
+// ); //[  ]
+// spacer("");
 
-spacer("findManagementChain for shep Jr.");
-console.log(
-  findManagementChainForEmployee(
-    findEmployeeByName("shep Jr.", employees),
-    employees
-  )
-); /*
-  [ { id: 1, name: 'moe' },
-    { id: 2, name: 'larry', managerId: 1 },
-    { id: 4, name: 'shep', managerId: 2 }]
-  */
-spacer("");
+// spacer("findManagementChain for shep Jr.");
+// console.log(
+//   findManagementChainForEmployee(
+//     findEmployeeByName("shep Jr.", employees),
+//     employees
+//   )
+// ); /*
+//   [ { id: 1, name: 'moe' },
+//     { id: 2, name: 'larry', managerId: 1 },
+//     { id: 4, name: 'shep', managerId: 2 }]
+//   */
+// spacer("");
 
 const generateManagementTree = (arr) => {
   //I think recursion could have been used here to make the code simpler but I couldn't figure it out for the life of me.
 
   const OGtree = { id: 1, name: "moe", reports: [] };
 
-  for (let i = 1; i < arr.length; i++) {
+  const newArr = [...arr];
+
+  console.log(`arr v. newArr`);
+  console.log(newArr === arr);
+
+  for (let i = 1; i < newArr.length; i++) {
     //Adding a 'reports' key to each object in the array in turn added a 'reports' key to the OG 'employees' array - WHY?
-    arr[i].reports = [];
-    if (arr[i].managerId === 1) {
+    newArr[i].reports = [];
+    if (newArr[i].managerId === 1) {
       OGtree.reports.push(arr[i]);
-    } else if (arr[i].managerId === 2) {
-      OGtree.reports[0].reports.push(arr[i]);
-    } else if (arr[i].managerId === 3) {
-      OGtree.reports[1].reports.push(arr[i]);
-    } else if (arr[i].managerId === 4) {
-      OGtree.reports[0].reports[0].reports.push(arr[i]);
-    } else if (arr[i].managerId === 5) {
-      OGtree.reports[1].reports[0].reports.push(arr[i]);
+    } else if (newArr[i].managerId === 2) {
+      OGtree.reports[0].reports.push(newArr[i]);
+    } else if (newArr[i].managerId === 3) {
+      OGtree.reports[1].reports.push(newArr[i]);
+    } else if (newArr[i].managerId === 4) {
+      OGtree.reports[0].reports[0].reports.push(newArr[i]);
+    } else if (newArr[i].managerId === 5) {
+      OGtree.reports[1].reports[0].reports.push(newArr[i]);
     }
   }
 
@@ -216,44 +221,54 @@ console.log(JSON.stringify(generateManagementTree(employees), null, 2));
   */
 spacer("");
 
-const displayManagementTree = (obj) => {
-  //I think recursion could have been used here to make the code simpler but I couldn't figure it out for the life of me.
+// const displayManagementTree = (obj) => {
+//   //I think recursion could have been used here to make the code simpler but I couldn't figure it out for the life of me.
 
-  let answer = `${obj.name}`;
+//   let answer = `${obj.name}`;
 
-  obj.reports.map((arr) => {
-    answer += `\n`;
-    answer += `-`;
-    answer += `${arr.name}`;
+//   obj.reports.map((arr) => {
+//     answer += `\n`;
+//     answer += `-`;
+//     answer += `${arr.name}`;
 
-    const reports = arr.reports;
+//     const reports = arr.reports;
 
-    if (reports.length > 0) {
-      answer += `\n`;
-      answer += `--`;
-      answer += `${reports[0].name}`;
+//     if (reports.length > 0) {
+//       answer += `\n`;
+//       answer += `--`;
+//       answer += `${reports[0].name}`;
 
-      const nextReports = reports[0].reports;
+//       const nextReports = reports[0].reports;
 
-      if (nextReports.length > 0) {
-        answer += `\n`;
-        answer += `---`;
-        answer += `${nextReports[0].name}`;
-      }
-    }
-  });
-  console.log(answer);
-};
+//       if (nextReports.length > 0) {
+//         answer += `\n`;
+//         answer += `---`;
+//         answer += `${nextReports[0].name}`;
+//       }
+//     }
+//   });
+//   console.log(answer);
+// };
 
-spacer("displayManagementTree");
-//given a tree of employees, generate a display which displays the hierarchy
-displayManagementTree(generateManagementTree(employees)); /*
-  moe
-  -larry
-  --shep
-  ---shep Jr.
-  -curly
-  --groucho
-  ---harpo
-  -lucy
-  */
+// spacer("displayManagementTree");
+// //given a tree of employees, generate a display which displays the hierarchy
+// displayManagementTree(generateManagementTree(employees)); /*
+//   moe
+//   -larry
+//   --shep
+//   ---shep Jr.
+//   -curly
+//   --groucho
+//   ---harpo
+//   -lucy
+//   */
+
+// const generateManagementTree = (employees) => {
+//   const manager = employees.find( employee => !employee.managerId);
+//   return { ...manager, reports: generateDirectReports(manager, employees) }
+// };
+
+// const generateManagementTree = (employees) => {
+//   //   const manager = employees.find( employee => !employee.managerId);
+//   //   return { ...manager, reports: generateDirectReports(manager, employees) }
+//   // };
